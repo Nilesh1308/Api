@@ -21,16 +21,10 @@ function App() {
     });
   };
   const filteredData = myData.filter((user) => {
-    if (selectedGenders.male && selectedGenders.female) {
-      return true;
-    } else if (selectedGenders.male && user.gender === "male") {
-      return true;
-    } else if (selectedGenders.female && user.gender === "female") {
-      return true;
-    } else {
-      return false;
-    }
-  });
+    if (selectedGenders.male && user.gender === "male") return true;
+    if (selectedGenders.female && user.gender === "female") return true;
+    return false;
+   });
 
   return (
     <>
