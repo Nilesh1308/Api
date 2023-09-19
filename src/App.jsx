@@ -7,12 +7,15 @@ function App() {
     male: false,
     female: false,
   });
+  const [query, setQuery]= useState("");
+  
   const showData = async () => {
      const res = await fetch(`https://gorest.co.in/public/v2/users`);
          const d = await res.json()
          setMyData(d)
          console.log(d)
   }
+  
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setSelectedGenders({
@@ -31,6 +34,9 @@ function App() {
   <h1>Data</h1>
   <button type="button" className="btn btn-success"onClick={showData}>Fetch Data</button>
   <div>
+  <input type= "text" placeholder="Search.." className="search" onChange={(e)=> setQuery(e.target.value)}/>
+  </div>
+  <div>
         <label>
           Male
           <input type="checkbox" name="male" checked={selectedGenders.male} onChange={handleCheckboxChange}/>
@@ -41,7 +47,7 @@ function App() {
         </label>
       </div>
 
-      {filteredData&&filteredData.map((user) => {
+      {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
         const { id, name, email, gender, status } = user;
         return (
           <div className="card" key={id}>
