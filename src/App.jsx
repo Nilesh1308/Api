@@ -8,12 +8,14 @@ function App() {
     female: false,
   });
   const [query, setQuery]= useState("");
+  
   const showData = async () => {
-     const res = await fetch(`https://gorest.co.in/public/v2/users?name=${query}`);
+     const res = await fetch(`https://gorest.co.in/public/v2/users`);
          const d = await res.json()
          setMyData(d)
          console.log(d)
   }
+  
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setSelectedGenders({
@@ -45,7 +47,7 @@ function App() {
         </label>
       </div>
 
-      {filteredData&&filteredData.map((user) => {
+      {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query)).map((user) => {
         const { id, name, email, gender, status } = user;
         return (
           <div className="card" key={id}>
