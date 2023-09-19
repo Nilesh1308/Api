@@ -47,7 +47,7 @@ function App() {
         </label>
       </div>
 
-      {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query)).map((user) => {
+      {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
         const { id, name, email, gender, status } = user;
         return (
           <div className="card" key={id}>
