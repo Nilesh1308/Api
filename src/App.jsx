@@ -7,8 +7,9 @@ function App() {
     male: false,
     female: false,
   });
+  const [query, setQuery]= useState("");
   const showData = async () => {
-     const res = await fetch(`https://gorest.co.in/public/v2/users`);
+     const res = await fetch(`https://gorest.co.in/public/v2/users?name=${query}`);
          const d = await res.json()
          setMyData(d)
          console.log(d)
@@ -30,6 +31,9 @@ function App() {
     <>
   <h1>Data</h1>
   <button type="button" className="btn btn-success"onClick={showData}>Fetch Data</button>
+  <div>
+  <input type= "text" placeholder="Search.." className="search" onChange={(e)=> setQuery(e.target.value)}/>
+  </div>
   <div>
         <label>
           Male
