@@ -4,8 +4,8 @@ import './App.css'
 function App() {
   const [myData, setMyData] = useState([])
   const [selectedGenders, setSelectedGenders] = useState({
-    male: false,
-    female: false,
+    male: true,
+    female: true,
   });
   const [query, setQuery]= useState("");
   
@@ -15,7 +15,20 @@ function App() {
          setMyData(d)
          console.log(d)
   }
-  
+  const ascendingEvent =() =>{
+    let data = [...myData]
+    if (data.length >0 ){
+    let result = data.sort((a,b)=>a.name.localeCompare(b.name))
+    setMyData(result)
+    }
+  }
+  const descendingEvent =() =>{
+    let data =[...myData]
+    if (data.length >0 ){
+    let result = data.sort((a,b)=>b.name.localeCompare(a.name))
+    setMyData(result)
+    }
+  }
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setSelectedGenders({
@@ -28,13 +41,16 @@ function App() {
     if (selectedGenders.female && user.gender === "female") return true;
     return false;
    });
-
+  
   return (
     <>
   <h1>Data</h1>
-  <button type="button" className="btn btn-success"onClick={showData}>Fetch Data</button>
+  <button type="button" className="btn btn-success mx-1"onClick={showData}>Fetch Data</button>
+  <button type="button" className="btn btn-success mx-1"onClick={ascendingEvent}>Ascending Order</button>
+  <button type="button" className="btn btn-success mx-1"onClick={descendingEvent}>Decending Order</button>
+  <button type="button" className="btn btn-success mx-1"onClick={showData}>Previous Data</button>
   <div>
-  <input type= "text" placeholder="Search.." className="search" onChange={(e)=> setQuery(e.target.value)}/>
+  <input type= "text" placeholder="Search.." className="search my-1" onChange={(e)=> setQuery(e.target.value)}/>
   </div>
   <div>
         <label>
