@@ -32,8 +32,7 @@ function App() {
    const ascendingEvent =() =>{
     setIsAscending(!isAscending);
   };
-  const sortedData = [...filteredData];
-  sortedData.sort((a,b) => {
+   filteredData.sort((a,b) => {
     if(isAscending){
       return a.name.localeCompare(b.name);
     }
@@ -61,7 +60,7 @@ function App() {
         </label>
       </div>
 
-      {sortedData&&sortedData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
+      {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
         const { id, name, email, gender, status } = user;
         return (
           <div className="card" key={id}>
