@@ -4,10 +4,11 @@ import './App.css'
 function App() {
   const [myData, setMyData] = useState([])
   const [selectedGenders, setSelectedGenders] = useState({
-    male: false,
-    female: false,
+    male: true,
+    female: true,
   });
   const [query, setQuery]= useState("");
+  const [isAscending,setIsAscending]=useState(true);
   
   const showData = async () => {
      const res = await fetch(`https://gorest.co.in/public/v2/users`);
@@ -15,7 +16,18 @@ function App() {
          setMyData(d)
          console.log(d)
   }
-  
+  const ascendingEvent =() =>{
+    setIsAscending(!isAscending);
+  };
+  const sortedData = [...myData]; 
+  sortedData.sort((a,b) => {
+    if(isAscending){
+      return a.name.localeCompare(b.name);
+    }
+    {
+      return b.name.localeCompare(a.name);
+    }
+  });
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setSelectedGenders({
@@ -23,18 +35,30 @@ function App() {
       [name]: checked,
     });
   };
-  const filteredData = myData.filter((user) => {
+  const filteredData = sortedData.filter((user) => {
     if (selectedGenders.male && user.gender === "male") return true;
     if (selectedGenders.female && user.gender === "female") return true;
     return false;
    });
-
+  /* const ascendingEvent =() =>{
+    setIsAscending(!isAscending);
+  };
+   filteredData.sort((a,b) => {
+    if(isAscending){
+      return a.name.localeCompare(b.name);
+    }
+    {
+      return b.name.localeCompare(a.name);
+    }
+  });*/
+  
   return (
     <>
   <h1>Data</h1>
-  <button type="button" className="btn btn-success"onClick={showData}>Fetch Data</button>
+  <button type="button" className="btn btn-success mx-1"onClick={showData}>Fetch Data</button>
+  <button type="button" className="btn btn-success mx-1"onClick={ascendingEvent}>{isAscending ? "Sort Descending": "Sort Ascending"}</button>
   <div>
-  <input type= "text" placeholder="Search.." className="search" onChange={(e)=> setQuery(e.target.value)}/>
+  <input type= "text" placeholder="Search.." className="search my-1" onChange={(e)=> setQuery(e.target.value)}/>
   </div>
   <div>
         <label>
