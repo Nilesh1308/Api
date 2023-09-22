@@ -8,6 +8,7 @@ function App() {
     female: true,
   });
   const [query, setQuery]= useState("");
+  const [isAscending,setIsAscending]=useState(true);
   
   const showData = async () => {
      const res = await fetch(`https://gorest.co.in/public/v2/users`);
@@ -15,20 +16,7 @@ function App() {
          setMyData(d)
          console.log(d)
   }
-  const ascendingEvent =() =>{
-    let data = [...myData]
-    if (data.length >0 ){
-    let result = data.sort((a,b)=>a.name.localeCompare(b.name))
-    setMyData(result)
-    }
-  }
-  const descendingEvent =() =>{
-    let data =[...myData]
-    if (data.length >0 ){
-    let result = data.sort((a,b)=>b.name.localeCompare(a.name))
-    setMyData(result)
-    }
-  }
+
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setSelectedGenders({
@@ -41,14 +29,24 @@ function App() {
     if (selectedGenders.female && user.gender === "female") return true;
     return false;
    });
+   const ascendingEvent =() =>{
+    setIsAscending(!isAscending);
+  };
+  const sortedData = [...filteredData];
+  sortedData.sort((a,b) => {
+    if(isAscending){
+      return a.name.localeCompare(b.name);
+    }
+    else {
+      return b.name.localeCompare(a.name);
+    }
+  });
   
   return (
     <>
   <h1>Data</h1>
   <button type="button" className="btn btn-success mx-1"onClick={showData}>Fetch Data</button>
-  <button type="button" className="btn btn-success mx-1"onClick={ascendingEvent}>Ascending Order</button>
-  <button type="button" className="btn btn-success mx-1"onClick={descendingEvent}>Decending Order</button>
-  <button type="button" className="btn btn-success mx-1"onClick={showData}>Previous Data</button>
+  <button type="button" className="btn btn-success mx-1"onClick={ascendingEvent}>{isAscending ? "Sort Descending": "Sort Ascending"}</button>
   <div>
   <input type= "text" placeholder="Search.." className="search my-1" onChange={(e)=> setQuery(e.target.value)}/>
   </div>
@@ -63,7 +61,7 @@ function App() {
         </label>
       </div>
 
-      {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
+      {sortedData&&sortedData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
         const { id, name, email, gender, status } = user;
         return (
           <div className="card" key={id}>
