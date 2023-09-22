@@ -16,7 +16,18 @@ function App() {
          setMyData(d)
          console.log(d)
   }
-
+  const ascendingEvent =() =>{
+    setIsAscending(!isAscending);
+  };
+  const sortedData = [...myData]; 
+  sortedData.sort((a,b) => {
+    if(isAscending){
+      return a.name.localeCompare(b.name);
+    }
+    {
+      return b.name.localeCompare(a.name);
+    }
+  });
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setSelectedGenders({
@@ -24,22 +35,22 @@ function App() {
       [name]: checked,
     });
   };
-  const filteredData = myData.filter((user) => {
+  const filteredData = sortedData.filter((user) => {
     if (selectedGenders.male && user.gender === "male") return true;
     if (selectedGenders.female && user.gender === "female") return true;
     return false;
    });
-   const ascendingEvent =() =>{
+  /* const ascendingEvent =() =>{
     setIsAscending(!isAscending);
   };
    filteredData.sort((a,b) => {
     if(isAscending){
       return a.name.localeCompare(b.name);
     }
-    else {
+    {
       return b.name.localeCompare(a.name);
     }
-  });
+  });*/
   
   return (
     <>
