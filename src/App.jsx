@@ -98,6 +98,9 @@ function App() {
         <h2>Markdown Content:</h2>
         <pre><ReactMarkdown>{markdownContent}</ReactMarkdown></pre>
       </div>
+      <div className='center'>
+        <textarea name="edit" value={markdownContent} onChange={(e) => setMarkdownContent(e.target.value)} cols="30" rows="10"></textarea>
+      </div>
       {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
         const { id, name, email, gender, status } = user;
         return (
