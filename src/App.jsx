@@ -1,6 +1,7 @@
 import {useEffect, useState } from 'react'
 import './App.css'
 import TurndownService from "turndown";
+import ReactMarkdown from 'react-markdown';
 //import axios from 'axios'
 function App() {
   const [myData, setMyData] = useState([])
@@ -77,7 +78,6 @@ function App() {
   
   return (
     <>
-  
   <h1>Data</h1>
   <button type="button" className="btn btn-success mx-1"onClick={showData}>Fetch Data</button>
   <button type="button" className="btn btn-success mx-1"onClick={ascendingEvent}>{isAscending ? "Sort Descending": "Sort Ascending"}</button>
@@ -96,7 +96,7 @@ function App() {
       </div>
       <div className="markdown-content">
         <h2>Markdown Content:</h2>
-        <pre>{markdownContent}</pre>
+        <pre><ReactMarkdown>{markdownContent}</ReactMarkdown></pre>
       </div>
       {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
         const { id, name, email, gender, status } = user;
