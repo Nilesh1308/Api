@@ -2,6 +2,7 @@ import {useEffect, useState } from 'react'
 import './App.css'
 import TurndownService from "turndown";
 import ReactMarkdown from 'react-markdown';
+import nanoMarkdown from 'nano-markdown';
 //import axios from 'axios'
 function App() {
   const [myData, setMyData] = useState([])
@@ -9,9 +10,10 @@ function App() {
     male: true,
     female: true,
   });
-  const [markdownContent, setMarkdownContent] = useState("")
+  const [markdownContent, setMarkdownContent] = useState("");
   const [query, setQuery]= useState("");
   const [isAscending,setIsAscending]=useState(true);
+  const [htmlContent, setHtmlContent] =useState (" ")
   
   const showData = async () => {
      const res = await fetch(`https://gorest.co.in/public/v2/users`);
@@ -57,8 +59,11 @@ function App() {
     `;
     const markdown = htmlToMarkdown(sampleHtml);
     setMarkdownContent(markdown);
-  }, []);
 
+    /*const html = ReactMarkdown.render(markdown);
+    setHtmlContent(html);*/
+  }, []);
+  const htmlcontent = nanoMarkdown(markdownContent);
   const filteredData = sortedData.filter((user) => {
     if (selectedGenders.male && user.gender === "male") return true;
     if (selectedGenders.female && user.gender === "female") return true;
@@ -101,6 +106,8 @@ function App() {
       <div className='center'>
         <textarea name="edit" value={markdownContent} onChange={(e) => setMarkdownContent(e.target.value)} cols="30" rows="10"></textarea>
       </div>
+      <div>{htmlcontent}</div>
+      {/*<div dangerouslySetInnerHTML={{ __html:htmlContent}}/>*/}
       {filteredData&&filteredData.filter((user)=>user.name.toLowerCase().includes(query.toLowerCase())).map((user) => {
         const { id, name, email, gender, status } = user;
         return (
